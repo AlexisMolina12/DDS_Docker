@@ -84,3 +84,9 @@ jobs:
         run: |
           docker push "${DOCKERHUB_IMAGE}:${SHORT_SHA}"
           docker push "${DOCKERHUB_IMAGE}:latest"
+
+      # Dispara el despliegue en Render (Deploy Hook guardado como secreto)
+      - name: Disparar despliegue en Render
+        if: github.event_name == 'push'
+        run: |
+          curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
